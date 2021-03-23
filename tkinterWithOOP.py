@@ -40,7 +40,6 @@ class ContainerFrame(tk.Tk):
         self.frames = {}
         self.pages = [HomePage, PageOne, PageTwo]
         # self.pages = np.array([HomePage, PageOne, PageTwo])
-        # self.counter = 0
 
         for F in self.pages:
             frame = F(self.container, self)
@@ -49,10 +48,12 @@ class ContainerFrame(tk.Tk):
 
         self.show_frame(HomePage)
 
+    # Raises the given frame (wanted_frame argument) above the others that are hosted on the container frame
     def show_frame(self, wanted_frame):
         frame = self.frames[wanted_frame]
         frame.tkraise()
 
+    # Finds the middle-top spot on a screen and returns it as a value usable in a .geometry() method
     def top_center_screen(self):
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
@@ -61,34 +62,34 @@ class ContainerFrame(tk.Tk):
         y = int((screen_height / 2) - (WINDOW_HEIGHT / 2)) - 200
         return '{}x{}+{}+{}'.format(WINDOW_WIDTH, WINDOW_HEIGHT, x, y)
 
-    # def next_page(self):
-    #     self.counter += 1
-    #     self.show_frame(self.pages[self.counter])
-    #
-    # def prev_page(self):
-    #     self.counter -= 1
-    #     self.show_frame(self.pages[self.counter])
-
+    # Checks if the inputted username and password match the ones in the username-password pool (users_info dict)
     def verify(self, un, pw):
-        flag = False
+        verified = False
         for U in self.users_info.items():
             if U[0] == un and U[1] == pw:
-                flag = True
-        if flag:
+                verified = True
+        if verified:
             self.show_frame(PageOne)
             self.frames[HomePage].destroy()
         else:
             messagebox.showerror(title="Error!", message="Login Failed!")
 
+    # Creates a new HomePage frame since it was destroyed for sure before this method was used
+    # (It creates it from scratch so after you pass the home page the details a user inputted in
+    # the entries would be cleared off them.
     def go_to_homepage(self):
         frame = HomePage(self.container, self)
         frame.grid(row=0, column=0, sticky="nsew")
 
+    # Creates a new Register frame since it was destroyed for sure before this method was used
+    # (It creates it from scratch so after you pass the register page the details a user inputted in
+    # the entries would be cleared off them.
     def go_to_register(self):
         frame = Register(self.container, self)
         frame.grid(row=0, column=0, sticky="nsew")
         self.frames[HomePage].destroy()
 
+    # Adds the inputs from the entries to the username-password pool (users_info dict)
     def register(self, un, pw1, pw2):
         if pw1 == pw2 and pw1 != "" and un != "":
             if un in self.users_info:
@@ -102,6 +103,7 @@ class ContainerFrame(tk.Tk):
             messagebox.showerror(title="Error!", message="Passwords Don't Match!")
 
 
+# This class represents the Register frame
 class Register(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -142,6 +144,7 @@ class Register(tk.Frame):
         register_button.grid(row=4, column=1, pady=2, sticky="e")
 
 
+# This class represents the HomePage frame
 class HomePage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -173,6 +176,7 @@ class HomePage(tk.Frame):
         register_button.grid(row=3, column=1, pady=2, sticky="w")
 
 
+# This class represents the PageOne frame
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -193,6 +197,7 @@ class PageOne(tk.Frame):
         p1_browse_button.pack(padx=2, pady=2, side='top', anchor='center')
 
 
+# This class represents the PageTwo frame
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -205,5 +210,10 @@ class PageTwo(tk.Frame):
         p2_prev_button.pack(padx=2, pady=2, side="bottom", anchor="sw")
 
 
-app = ContainerFrame()
-app.mainloop()
+def main():
+    app = ContainerFrame()
+    app.mainloop()
+
+
+if __name__ == '__main__':
+    main()

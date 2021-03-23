@@ -8,11 +8,11 @@ LARGE_FONT = ("Ariel", 12)
 WINDOW_WIDTH = 300
 WINDOW_HEIGHT = 200
 
-
+# Uses the file explorer to choose a picture and display it in a new window
 def browse_files():
     try:
         filename = filedialog.askopenfilename(initialdir="/", title="Select a File",
-                                              filetypes=(("Text files", "*.txt*"), ("all files", "*.*")))
+                                              filetypes=(("JPEG", "*.JPG*"), ("all files", "*.*")))
         window = tk.Tk()
         window.title("")
         test = ImageTk.PhotoImage(master=window, file=filename)
@@ -24,6 +24,8 @@ def browse_files():
         window.destroy()
 
 
+# This class acts as the main WINDOW and hosts many frames inside it - a controller that has methods that every frame
+# it hosts can use to go get around the application's pages
 class ContainerFrame(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)

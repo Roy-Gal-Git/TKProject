@@ -8,6 +8,7 @@ LARGE_FONT = ("Ariel", 12)
 WINDOW_WIDTH = 300
 WINDOW_HEIGHT = 200
 
+
 # Uses the file explorer to choose a picture and display it in a new window
 def browse_files():
     try:

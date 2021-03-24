@@ -212,8 +212,8 @@ class PageTwo(tk.Frame):
 
 
 def main():
-    app = ContainerFrame()
-    app.mainloop()
+    parent_window = ContainerFrame()
+    parent_window.mainloop()
 
 
 if __name__ == '__main__':

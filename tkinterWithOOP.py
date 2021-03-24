@@ -28,8 +28,8 @@ def browse_files():
 # This class acts as the main WINDOW and hosts many frames inside it - a controller that has methods that every frame
 # it hosts can use to go get around the application's pages
 class ContainerFrame(tk.Tk):
-    def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+    def __init__(self):
+        tk.Tk.__init__(self)
         self.container = tk.Frame(self)
         self.geometry(self.top_center_screen())
         self.title("TKProject")

@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
-from PIL import ImageTk
+from PIL import ImageTk, Image
 # import numpy as np
 
 
 LARGE_FONT = ("Ariel", 12)
-WINDOW_WIDTH = 300
+WINDOW_WIDTH = 350
 WINDOW_HEIGHT = 200
 
 
@@ -34,7 +34,7 @@ class ContainerFrame(tk.Tk):
         self.geometry(self.top_center_screen())
         self.title("TKProject")
         self.container.pack(side='top', fill='both', expand=True)
-        self.users_info = {"Roy": "Aa123456"}
+        self.users_info = {"Roy": "Aa123456", "": ""}
 
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
@@ -203,12 +203,50 @@ class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        p2_label = ttk.Label(self, text="Page Two", font=LARGE_FONT, background="cyan")
-        p2_label.pack(padx=20, pady=20)
+        self.menu_frame = tk.Frame(self, bg="cyan")
+        self.menu_frame.pack(fill="y", side="left", anchor="w")
 
-        p2_prev_button = ttk.Button(self, text="Prev",
-                                    command=lambda: controller.show_frame(PageOne))
-        p2_prev_button.pack(padx=2, pady=2, side="bottom", anchor="sw")
+        menu_label = ttk.Label(self.menu_frame, text="Menu:", background="white", font=LARGE_FONT)
+        menu_label.pack(padx=20, pady=20)
+
+        menu_prev_button = ttk.Button(self.menu_frame, text="Prev",
+                                      command=lambda: controller.show_frame(PageOne))
+        menu_prev_button.pack(padx=2, pady=2, side="bottom", anchor="sw")
+
+        self.right_container = tk.Frame(self, bg="medium aquamarine")
+        self.right_container.pack(fill="both", side="top", anchor="s", expand=True)
+        
+        # Right top container
+        self.rt_container = tk.Frame(self.right_container)
+        self.rt_container.pack(fill="both", expand=True)
+        
+        # Right top left
+        self.rtl_frame = tk.Frame(self.rt_container, bg="dark turquoise")
+        self.rtl_frame.pack(side="left", anchor="nw", fill="both", expand=True)
+
+        rtl_label = ttk.Label(self.rtl_frame, text="LEFT", font=LARGE_FONT, background="white")
+        rtl_label.pack(padx=20, pady=20, anchor="n")
+
+        # Right top middle
+        self.rtm_frame = tk.Frame(self.rt_container, bg="steel blue")
+        self.rtm_frame.pack(side="left", anchor="n", fill="both", expand=True)
+
+        rtm_label = ttk.Label(self.rtm_frame, text="MID", font=LARGE_FONT, background="white")
+        rtm_label.pack(padx=20, pady=20, anchor="n")
+
+        # Right top right
+        self.rtr_frame = tk.Frame(self.rt_container, bg="dark sea green")
+        self.rtr_frame.pack(side="left", anchor="ne", fill="both", expand=True)
+
+        rtr_label = ttk.Label(self.rtr_frame, text="RIGHT", font=LARGE_FONT, background="white")
+        rtr_label.pack(padx=20, pady=20, anchor="n")
+
+        # Right bottom
+        self.rb_frame = tk.Frame(self.right_container, bg="royal blue")
+        self.rb_frame.pack(side="bottom", anchor="s", fill="both", expand=True)
+
+        rb_label = ttk.Label(self.rb_frame, text="BOTTOM", font=LARGE_FONT, background="white")
+        rb_label.pack(padx=20, pady=20, anchor="n")
 
 
 def main():

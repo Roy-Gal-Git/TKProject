@@ -19,7 +19,7 @@ def browse_files():
         test = ImageTk.PhotoImage(master=window, file=filename)
         label = tk.Label(window, image=test)
         label.image = test
-        label.grid(row=0, column=0, sticky="nsew")
+        label.pack(fill="both", expand=True)
 
     except:
         window.destroy()
@@ -233,6 +233,13 @@ class PageTwo(tk.Frame):
 
         rtm_label = ttk.Label(self.rtm_frame, text="MID", font=LARGE_FONT, background="white")
         rtm_label.pack(padx=20, pady=20, anchor="n")
+
+        # file = r"C:\Users\Roy.DEV\Desktop\duck.png"
+        # image1 = Image.open(file)
+        # image1.thumbnail((50, 50), Image.ANTIALIAS)
+        # img = ImageTk.PhotoImage(image1)
+        # rtm_image = tk.Label(self.rtm_frame, image=img)
+        # rtm_image.place(relx=.5, rely=.5, anchor="center")
 
         # Right top right
         self.rtr_frame = tk.Frame(self.rt_container, bg="dark sea green")

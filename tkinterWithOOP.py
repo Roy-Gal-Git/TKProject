@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 from PIL import ImageTk, Image
-# import numpy as np
 
 
 LARGE_FONT = ("Ariel", 12)
@@ -39,8 +38,7 @@ class ContainerFrame(tk.Tk):
         self.container.grid_rowconfigure(0, weight=1)
         self.container.grid_columnconfigure(0, weight=1)
         self.frames = {}
-        self.pages = [HomePage, PageOne, PageTwo]
-        # self.pages = np.array([HomePage, PageOne, PageTwo])
+        self.pages = [HomePage, PageOne, PageTwo, PageThree]
 
         for F in self.pages:
             frame = F(self.container, self)
@@ -102,6 +100,64 @@ class ContainerFrame(tk.Tk):
             messagebox.showerror(title="Error!", message="Missing Details!")
         else:
             messagebox.showerror(title="Error!", message="Passwords Don't Match!")
+
+    def create_new_window(self):
+        # TK Window
+        new_window = tk.Toplevel(self)
+        new_window.geometry(self.top_center_screen())
+        new_window.config(bg="black")
+
+        # Frames
+        top_frame = tk.Frame(new_window, bg="red")
+        top_frame.pack(side="top", anchor="n", expand=True, fill="x")
+
+        top_n_frame = tk.Frame(top_frame, bg="orange")
+        top_n_frame.pack(side="top", anchor="n", expand=True, fill="x")
+
+        top_nwne_frame = tk.Frame(top_frame, bg="orange")
+        top_nwne_frame.pack(side="top", anchor="center", expand=True, fill="both")
+
+        bottom_frame = tk.Frame(new_window, bg="blue")
+        bottom_frame.pack(side="bottom", anchor="s", expand=True, fill="x")
+
+        bottom_s_frame = tk.Frame(bottom_frame, bg="pink")
+        bottom_s_frame.pack(side="bottom", anchor="s", expand=True, fill="x")
+
+        bottom_swse_frame = tk.Frame(bottom_frame, bg="pink")
+        bottom_swse_frame.pack(side="bottom", anchor="s", expand=True, fill="both")
+
+        right_frame = tk.Frame(new_window, bg="green")
+        right_frame.pack(side="right", anchor="e")
+
+        left_frame = tk.Frame(new_window, bg="green")
+        left_frame.pack(side="left", anchor="w")
+
+        # Buttons
+        n_button = ttk.Button(top_n_frame, text="N")
+        n_button.pack(padx=2, pady=2, side="top", anchor="n")
+
+        s_button = ttk.Button(bottom_s_frame, text="S")
+        s_button.pack(padx=2, pady=2, side="bottom", anchor="s")
+
+        w_button = ttk.Button(left_frame, text="W")
+        w_button.pack(padx=2, pady=2, side="left", anchor="w")
+
+        nw_button = ttk.Button(top_nwne_frame, text="NW")
+        nw_button.pack(padx=2, pady=2, side="left", anchor="nw")
+
+        sw_button = ttk.Button(bottom_swse_frame, text="SW")
+        sw_button.pack(padx=2, pady=2, side="left", anchor="sw")
+
+        e_button = ttk.Button(right_frame, text="E")
+        e_button.pack(padx=2, pady=2, side="right", anchor="e")
+
+        ne_button = ttk.Button(top_nwne_frame, text="NE")
+        ne_button.pack(padx=2, pady=2, side="right", anchor="ne")
+
+        se_button = ttk.Button(bottom_swse_frame, text="SE")
+        se_button.pack(padx=2, pady=2, side="right", anchor="se")
+
+
 
 
 # This class represents the Register frame
@@ -209,9 +265,22 @@ class PageTwo(tk.Frame):
         menu_label = ttk.Label(self.menu_frame, text="Menu:", background="white", font=LARGE_FONT)
         menu_label.pack(padx=20, pady=20)
 
-        menu_prev_button = ttk.Button(self.menu_frame, text="Prev",
+        self.buttons_frame = tk.Frame(self.menu_frame)
+        self.buttons_frame.pack(side="bottom", anchor="w")
+
+        self.prev_button_frame = tk.Frame(self.buttons_frame, bg="cyan")
+        self.prev_button_frame.pack(side="left", anchor="w")
+
+        self.next_button_frame = tk.Frame(self.buttons_frame, bg="cyan")
+        self.next_button_frame.pack(side="right", anchor="w")
+
+        menu_prev_button = ttk.Button(self.prev_button_frame, text="Prev",
                                       command=lambda: controller.show_frame(PageOne))
         menu_prev_button.pack(padx=2, pady=2, side="bottom", anchor="sw")
+
+        menu_next_button = ttk.Button(self.next_button_frame, text="Next",
+                                      command=lambda: controller.show_frame(PageThree))
+        menu_next_button.pack(padx=2, pady=2, side="bottom", anchor="se")
 
         self.right_container = tk.Frame(self, bg="medium aquamarine")
         self.right_container.pack(fill="both", side="top", anchor="s", expand=True)
@@ -234,13 +303,6 @@ class PageTwo(tk.Frame):
         rtm_label = ttk.Label(self.rtm_frame, text="MID", font=LARGE_FONT, background="white")
         rtm_label.pack(padx=20, pady=20, anchor="n")
 
-        # file = r"C:\Users\Roy.DEV\Desktop\duck.png"
-        # image1 = Image.open(file)
-        # image1.thumbnail((50, 50), Image.ANTIALIAS)
-        # img = ImageTk.PhotoImage(image1)
-        # rtm_image = tk.Label(self.rtm_frame, image=img)
-        # rtm_image.place(relx=.5, rely=.5, anchor="center")
-
         # Right top right
         self.rtr_frame = tk.Frame(self.rt_container, bg="dark sea green")
         self.rtr_frame.pack(side="left", anchor="ne", fill="both", expand=True)
@@ -254,6 +316,30 @@ class PageTwo(tk.Frame):
 
         rb_label = ttk.Label(self.rb_frame, text="BOTTOM", font=LARGE_FONT, background="white")
         rb_label.pack(padx=20, pady=20, anchor="n")
+
+
+class PageThree(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        p3_label = ttk.Label(self, text="CREATION", font=LARGE_FONT, background="steelblue")
+        p3_label.pack(padx=20, pady=20)
+
+        create_button = ttk.Button(self, text="Create Button",
+                                   command=lambda: self.creation_command(controller))
+        create_button.pack(padx=2, pady=2, side='top', anchor='center')
+
+        p3_prev_button = ttk.Button(self, text="Prev",
+                                    command=lambda: controller.show_frame(PageTwo))
+        p3_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
+
+    def creation_command(self, controller):
+        p3_next_button = ttk.Button(self, text="Next",
+                                    command=lambda: controller.show_frame(PageTwo))
+        p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
+        controller.create_new_window()
+
+
 
 
 def main():

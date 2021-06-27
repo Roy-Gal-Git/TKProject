@@ -4,8 +4,8 @@ from PIL import ImageTk, Image
 
 
 LARGE_FONT = ("Ariel", 12)
-WINDOW_WIDTH = 350
-WINDOW_HEIGHT = 200
+WINDOW_WIDTH = 410
+WINDOW_HEIGHT = 230
 
 
 # Uses the file explorer to choose a picture and display it in a new window
@@ -321,6 +321,8 @@ class PageTwo(tk.Frame):
 class PageThree(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.next_button_exists = False
+        self.p3_next_button = None
 
         p3_label = ttk.Label(self, text="CREATION", font=LARGE_FONT, background="steelblue")
         p3_label.pack(padx=20, pady=20)
@@ -330,14 +332,21 @@ class PageThree(tk.Frame):
         create_button.pack(padx=2, pady=2, side='top', anchor='center')
 
         p3_prev_button = ttk.Button(self, text="Prev",
-                                    command=lambda: controller.show_frame(PageTwo))
+                                    command=lambda: self.show_prev_page(controller))
         p3_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
 
     def creation_command(self, controller):
-        p3_next_button = ttk.Button(self, text="Next",
-                                    command=lambda: controller.show_frame(PageTwo))
-        p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
+        if not self.next_button_exists:
+            self.next_button_exists = True
+            self.p3_next_button = ttk.Button(self, text="Next",
+                                             command=lambda: self.show_prev_page(controller))
+            self.p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
         controller.create_new_window()
+
+    def show_prev_page(self, controller):
+        self.p3_next_button.destroy()
+        self.next_button_exists = False
+        controller.show_frame(PageTwo)
 
 
 

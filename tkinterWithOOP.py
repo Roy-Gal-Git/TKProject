@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 from PIL import ImageTk, Image
 
-
 LARGE_FONT = ("Ariel", 12)
 WINDOW_WIDTH = 410
 WINDOW_HEIGHT = 230
@@ -158,8 +157,6 @@ class ContainerFrame(tk.Tk):
         se_button.pack(padx=2, pady=2, side="right", anchor="se")
 
 
-
-
 # This class represents the Register frame
 class Register(tk.Frame):
     def __init__(self, parent, controller):
@@ -284,11 +281,11 @@ class PageTwo(tk.Frame):
 
         self.right_container = tk.Frame(self, bg="medium aquamarine")
         self.right_container.pack(fill="both", side="top", anchor="s", expand=True)
-        
+
         # Right top container
         self.rt_container = tk.Frame(self.right_container)
         self.rt_container.pack(fill="both", expand=True)
-        
+
         # Right top left
         self.rtl_frame = tk.Frame(self.rt_container, bg="dark turquoise")
         self.rtl_frame.pack(side="left", anchor="nw", fill="both", expand=True)
@@ -338,17 +335,54 @@ class PageThree(tk.Frame):
     def creation_command(self, controller):
         if not self.next_button_exists:
             self.next_button_exists = True
+
+            # Creating the new page
+            frame = PageCreation(controller.container, controller)
+            controller.frames[PageCreation] = frame
+            frame.grid(row=0, column=0, sticky='nsew')
+            frame.lower()
+
+            print(controller.frames[PageCreation])
+
             self.p3_next_button = ttk.Button(self, text="Next",
-                                             command=lambda: self.show_prev_page(controller))
+                                             command=lambda: controller.show_frame(PageCreation))
             self.p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
         controller.create_new_window()
 
     def show_prev_page(self, controller):
-        self.p3_next_button.destroy()
-        self.next_button_exists = False
+        if PageCreation in controller.frames:
+            del controller.frames[PageCreation]
+        if self.next_button_exists:
+            self.p3_next_button.destroy()
+            self.next_button_exists = False
         controller.show_frame(PageTwo)
 
 
+class PageCreation(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.prev_page = controller.frames[PageThree]
+
+
+        pc_label = ttk.Label(self, text="Creation Page", font=LARGE_FONT, background="magenta")
+        pc_label.pack(padx=20, pady=20)
+
+        pc_prev_button = ttk.Button(self, text="Prev",
+                                    command=lambda: self.show_prev_page(controller))
+        pc_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
+
+        # pc_next_button = ttk.Button(self, text="Next",
+        #                             command=lambda: controller.show_frame(PageTwo))
+        # pc_next_button.pack(padx=2, pady=2, side="right", anchor="se")
+
+    def show_prev_page(self, controller):
+        controller.frames[PageCreation].destroy()
+        if PageCreation in controller.frames:
+            del controller.frames[PageCreation]
+        if self.prev_page.next_button_exists:
+            self.prev_page.p3_next_button.destroy()
+            self.prev_page.next_button_exists = False
+        controller.show_frame(PageThree)
 
 
 def main():

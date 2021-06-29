@@ -132,29 +132,44 @@ class ContainerFrame(tk.Tk):
         left_frame.pack(side="left", anchor="w")
 
         # Buttons
-        n_button = ttk.Button(top_n_frame, text="N")
+        n_button = ttk.Button(top_n_frame, text="N",
+                              command=lambda: self.set_button_by_direction(new_window, "top", "n"))
         n_button.pack(padx=2, pady=2, side="top", anchor="n")
 
-        s_button = ttk.Button(bottom_s_frame, text="S")
+        s_button = ttk.Button(bottom_s_frame, text="S",
+                              command=lambda: self.set_button_by_direction(new_window, "bottom", "s"))
         s_button.pack(padx=2, pady=2, side="bottom", anchor="s")
 
-        w_button = ttk.Button(left_frame, text="W")
+        w_button = ttk.Button(left_frame, text="W",
+                              command=lambda: self.set_button_by_direction(new_window, "left", "w"))
         w_button.pack(padx=2, pady=2, side="left", anchor="w")
 
-        nw_button = ttk.Button(top_nwne_frame, text="NW")
+        nw_button = ttk.Button(top_nwne_frame, text="NW",
+                               command=lambda: self.set_button_by_direction(new_window, "left", "nw"))
         nw_button.pack(padx=2, pady=2, side="left", anchor="nw")
 
-        sw_button = ttk.Button(bottom_swse_frame, text="SW")
+        sw_button = ttk.Button(bottom_swse_frame, text="SW",
+                               command=lambda: self.set_button_by_direction(new_window, "left", "sw"))
         sw_button.pack(padx=2, pady=2, side="left", anchor="sw")
 
-        e_button = ttk.Button(right_frame, text="E")
+        e_button = ttk.Button(right_frame, text="E",
+                              command=lambda: self.set_button_by_direction(new_window, "right", "e"))
         e_button.pack(padx=2, pady=2, side="right", anchor="e")
 
-        ne_button = ttk.Button(top_nwne_frame, text="NE")
+        ne_button = ttk.Button(top_nwne_frame, text="NE",
+                               command=lambda: self.set_button_by_direction(new_window, "right", "ne"))
         ne_button.pack(padx=2, pady=2, side="right", anchor="ne")
 
-        se_button = ttk.Button(bottom_swse_frame, text="SE")
+        se_button = ttk.Button(bottom_swse_frame, text="SE",
+                               command=lambda: self.set_button_by_direction(new_window, "right", "se"))
         se_button.pack(padx=2, pady=2, side="right", anchor="se")
+
+    def set_button_by_direction(self, new_window, side, anchor):
+        self.frames[PageThree].creation_command(self)
+        self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation], text="BUTTON",
+                                                      command=lambda: self.frames[PageCreation].show_prev_page(self))
+        self.frames[PageCreation].button.pack(padx=2, pady=2, side=side, anchor=anchor)
+        new_window.destroy()
 
 
 # This class represents the Register frame
@@ -325,7 +340,7 @@ class PageThree(tk.Frame):
         p3_label.pack(padx=20, pady=20)
 
         create_button = ttk.Button(self, text="Create Button",
-                                   command=lambda: self.creation_command(controller))
+                                   command=lambda: controller.create_new_window())
         create_button.pack(padx=2, pady=2, side='top', anchor='center')
 
         p3_prev_button = ttk.Button(self, text="Prev",
@@ -342,12 +357,10 @@ class PageThree(tk.Frame):
             frame.grid(row=0, column=0, sticky='nsew')
             frame.lower()
 
-            print(controller.frames[PageCreation])
-
             self.p3_next_button = ttk.Button(self, text="Next",
                                              command=lambda: controller.show_frame(PageCreation))
             self.p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
-        controller.create_new_window()
+        # controller.create_new_window()
 
     def show_prev_page(self, controller):
         if PageCreation in controller.frames:
@@ -363,13 +376,39 @@ class PageCreation(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.prev_page = controller.frames[PageThree]
 
+        # nw_frame = tk.Frame(self)
+        # nw_frame.grid(row=0, column=0, sticky="nw")
+        #
+        # n_frame = tk.Frame(self)
+        # n_frame.grid(row=0, column=0, sticky="n")
+        #
+        # ne_frame = tk.Frame(self)
+        # ne_frame.grid(row=0, column=0, sticky="ne")
+        #
+        # w_frame = tk.Frame(self)
+        # w_frame.grid(row=0, column=0, sticky="w")
+        #
+        # center_frame = tk.Frame(self)
+        # center_frame.grid(row=0, column=0, sticky="nsew")
+        #
+        # e_frame = tk.Frame(self)
+        # e_frame.grid(row=0, column=0, sticky="e")
+        #
+        # sw_frame = tk.Frame(self)
+        # sw_frame.grid(row=0, column=0, sticky="sw")
+        #
+        # s_frame = tk.Frame(self)
+        # s_frame.grid(row=0, column=0, sticky="s")
+        #
+        # se_frame = tk.Frame(self)
+        # se_frame.grid(row=0, column=0, sticky="nw")
 
-        pc_label = ttk.Label(self, text="Creation Page", font=LARGE_FONT, background="magenta")
+        pc_label = ttk.Label(self, text="Creation Page", font=("Ariel", 24), background="magenta")
         pc_label.pack(padx=20, pady=20)
 
-        pc_prev_button = ttk.Button(self, text="Prev",
-                                    command=lambda: self.show_prev_page(controller))
-        pc_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
+        # pc_prev_button = ttk.Button(self, text="Prev",
+        #                             command=lambda: self.show_prev_page(controller))
+        # pc_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
 
         # pc_next_button = ttk.Button(self, text="Next",
         #                             command=lambda: controller.show_frame(PageTwo))

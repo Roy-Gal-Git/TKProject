@@ -100,6 +100,7 @@ class ContainerFrame(tk.Tk):
         else:
             messagebox.showerror(title="Error!", message="Passwords Don't Match!")
 
+    # Creates a brand new window (not a frame) that's stacked on the root window.
     def create_new_window(self):
         # TK Window
         new_window = tk.Toplevel(self)
@@ -164,9 +165,12 @@ class ContainerFrame(tk.Tk):
                                command=lambda: self.set_button_by_direction(new_window, "right", "se"))
         se_button.pack(padx=2, pady=2, side="right", anchor="se")
 
+    # Setting the button in the creation page to the same direction of the buttons in the new pop-up window
     def set_button_by_direction(self, new_window, side, anchor):
         self.frames[PageThree].creation_command(self)
         self.frames[PageCreation].button = None
+
+        # Logic behind where should the buttons be created
         if anchor == "nw":
             self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].nw_frame, text="Prev",
                                                           command=lambda: self.frames[PageCreation].show_prev_page(self))
@@ -200,7 +204,6 @@ class ContainerFrame(tk.Tk):
 
         self.frames[PageCreation].button.pack(padx=2, pady=2, side=side, anchor=anchor)
 
-        # self.frames[PageCreation].button.grid(row=0, column=0, padx=2, pady=2)
         new_window.destroy()
 
 
@@ -362,6 +365,7 @@ class PageTwo(tk.Frame):
         rb_label.pack(padx=20, pady=20, anchor="n")
 
 
+# This class represents the PageThree frame
 class PageThree(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -379,6 +383,8 @@ class PageThree(tk.Frame):
                                     command=lambda: self.show_prev_page(controller))
         p3_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
 
+    # A method that creates the next button on the PageThree frame and adds a new frame into the frames dictionary.
+    # It also creates that new frame and lowers it so the PageThree frame would still be displayed.
     def creation_command(self, controller):
         if not self.next_button_exists:
             self.next_button_exists = True
@@ -393,6 +399,7 @@ class PageThree(tk.Frame):
                                              command=lambda: controller.show_frame(PageCreation))
             self.p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
 
+    # Deletes the creation page and page 3's next button if it exists
     def show_prev_page(self, controller):
         if PageCreation in controller.frames:
             del controller.frames[PageCreation]
@@ -402,6 +409,7 @@ class PageThree(tk.Frame):
         controller.show_frame(PageTwo)
 
 
+# This class represents the PageCreation frame
 class PageCreation(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -410,6 +418,7 @@ class PageCreation(tk.Frame):
         pc_label = ttk.Label(self, text="Creation Page", font=LARGE_FONT, background="magenta")
         pc_label.pack(padx=20, pady=20)
 
+        # Scalable main frame that holds everything
         self.scalable_frame = tk.Frame(self)
         self.scalable_frame.pack()
 
@@ -420,6 +429,7 @@ class PageCreation(tk.Frame):
         self.scalable_frame.grid_rowconfigure(2, weight=1)
         self.scalable_frame.grid_columnconfigure(2, weight=1)
 
+        # Inner frames added with grid into the scalable frame
         self.nw_frame = tk.Frame(self.scalable_frame, bg="gold")
         self.nw_frame.grid(row=0, column=0, sticky="nsew", ipadx=60, ipady=25)
         self.nw_frame.pack_propagate(0)
@@ -456,6 +466,7 @@ class PageCreation(tk.Frame):
         self.se_frame.grid(row=2, column=2, sticky="nsew", ipadx=60, ipady=25)
         self.se_frame.pack_propagate(0)
 
+    # Deletes the PageCreation frame and the PageThree frame's next button since it exists for sure now
     def show_prev_page(self, controller):
         controller.frames[PageCreation].destroy()
         if PageCreation in controller.frames:

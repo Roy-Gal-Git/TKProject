@@ -166,9 +166,41 @@ class ContainerFrame(tk.Tk):
 
     def set_button_by_direction(self, new_window, side, anchor):
         self.frames[PageThree].creation_command(self)
-        self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation], text="BUTTON",
-                                                      command=lambda: self.frames[PageCreation].show_prev_page(self))
+        self.frames[PageCreation].button = None
+        if anchor == "nw":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].nw_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+        if anchor == "n":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].n_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
+        if anchor == "ne":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].ne_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
+        if anchor == "w":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].w_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
+        if anchor == "e":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].e_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
+        if anchor == "sw":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].sw_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
+        if anchor == "s":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].s_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
+        if anchor == "se":
+            self.frames[PageCreation].button = ttk.Button(self.frames[PageCreation].se_frame, text="Prev",
+                                                          command=lambda: self.frames[PageCreation].show_prev_page(self))
+
         self.frames[PageCreation].button.pack(padx=2, pady=2, side=side, anchor=anchor)
+
+        # self.frames[PageCreation].button.grid(row=0, column=0, padx=2, pady=2)
         new_window.destroy()
 
 
@@ -360,7 +392,6 @@ class PageThree(tk.Frame):
             self.p3_next_button = ttk.Button(self, text="Next",
                                              command=lambda: controller.show_frame(PageCreation))
             self.p3_next_button.pack(padx=2, pady=2, side="right", anchor="se")
-        # controller.create_new_window()
 
     def show_prev_page(self, controller):
         if PageCreation in controller.frames:
@@ -376,43 +407,54 @@ class PageCreation(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.prev_page = controller.frames[PageThree]
 
-        # nw_frame = tk.Frame(self)
-        # nw_frame.grid(row=0, column=0, sticky="nw")
-        #
-        # n_frame = tk.Frame(self)
-        # n_frame.grid(row=0, column=0, sticky="n")
-        #
-        # ne_frame = tk.Frame(self)
-        # ne_frame.grid(row=0, column=0, sticky="ne")
-        #
-        # w_frame = tk.Frame(self)
-        # w_frame.grid(row=0, column=0, sticky="w")
-        #
-        # center_frame = tk.Frame(self)
-        # center_frame.grid(row=0, column=0, sticky="nsew")
-        #
-        # e_frame = tk.Frame(self)
-        # e_frame.grid(row=0, column=0, sticky="e")
-        #
-        # sw_frame = tk.Frame(self)
-        # sw_frame.grid(row=0, column=0, sticky="sw")
-        #
-        # s_frame = tk.Frame(self)
-        # s_frame.grid(row=0, column=0, sticky="s")
-        #
-        # se_frame = tk.Frame(self)
-        # se_frame.grid(row=0, column=0, sticky="nw")
-
-        pc_label = ttk.Label(self, text="Creation Page", font=("Ariel", 24), background="magenta")
+        pc_label = ttk.Label(self, text="Creation Page", font=LARGE_FONT, background="magenta")
         pc_label.pack(padx=20, pady=20)
 
-        # pc_prev_button = ttk.Button(self, text="Prev",
-        #                             command=lambda: self.show_prev_page(controller))
-        # pc_prev_button.pack(padx=2, pady=2, side="left", anchor="sw")
+        self.scalable_frame = tk.Frame(self)
+        self.scalable_frame.pack()
 
-        # pc_next_button = ttk.Button(self, text="Next",
-        #                             command=lambda: controller.show_frame(PageTwo))
-        # pc_next_button.pack(padx=2, pady=2, side="right", anchor="se")
+        self.scalable_frame.grid_rowconfigure(0, weight=1)
+        self.scalable_frame.grid_columnconfigure(0, weight=1)
+        self.scalable_frame.grid_rowconfigure(1, weight=1)
+        self.scalable_frame.grid_columnconfigure(1, weight=1)
+        self.scalable_frame.grid_rowconfigure(2, weight=1)
+        self.scalable_frame.grid_columnconfigure(2, weight=1)
+
+        self.nw_frame = tk.Frame(self.scalable_frame, bg="gold")
+        self.nw_frame.grid(row=0, column=0, sticky="nsew", ipadx=60, ipady=25)
+        self.nw_frame.pack_propagate(0)
+
+        self.n_frame = tk.Frame(self.scalable_frame, bg="spring green")
+        self.n_frame.grid(row=0, column=1, sticky="nsew", ipadx=60, ipady=25)
+        self.n_frame.pack_propagate(0)
+
+        self.ne_frame = tk.Frame(self.scalable_frame, bg="cyan")
+        self.ne_frame.grid(row=0, column=2, sticky="nsew", ipadx=60, ipady=25)
+        self.ne_frame.pack_propagate(0)
+
+        self.w_frame = tk.Frame(self.scalable_frame, bg="yellow")
+        self.w_frame.grid(row=1, column=0, sticky="nsew", ipadx=60, ipady=25)
+        self.w_frame.pack_propagate(0)
+
+        self.center_frame = tk.Frame(self.scalable_frame, bg="peach puff")
+        self.center_frame.grid(row=1, column=1, sticky="nsew", ipadx=60, ipady=25)
+        self.center_frame.pack_propagate(0)
+
+        self.e_frame = tk.Frame(self.scalable_frame, bg="red")
+        self.e_frame.grid(row=1, column=2, sticky="nsew", ipadx=60, ipady=25)
+        self.e_frame.pack_propagate(0)
+
+        self.sw_frame = tk.Frame(self.scalable_frame, bg="VioletRed2")
+        self.sw_frame.grid(row=2, column=0, sticky="nsew", ipadx=60, ipady=25)
+        self.sw_frame.pack_propagate(0)
+
+        self.s_frame = tk.Frame(self.scalable_frame, bg="chocolate1")
+        self.s_frame.grid(row=2, column=1, sticky="nsew", ipadx=60, ipady=25)
+        self.s_frame.pack_propagate(0)
+
+        self.se_frame = tk.Frame(self.scalable_frame, bg="royal blue")
+        self.se_frame.grid(row=2, column=2, sticky="nsew", ipadx=60, ipady=25)
+        self.se_frame.pack_propagate(0)
 
     def show_prev_page(self, controller):
         controller.frames[PageCreation].destroy()

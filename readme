@@ -1,0 +1,4 @@
+This project is all about showing my work with tkinter.
+The app has no database connection yet.
+You can register (locally since there's no db) and login, show jpeg files in the app window, and create buttons in a new window depending on your choice of location.
+The app is responsive and scalable.
